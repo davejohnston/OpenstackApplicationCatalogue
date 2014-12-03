@@ -42,7 +42,7 @@
                             </div>
                         {% else %}
                             <div class="form-group">
-                                <label for="{{ key.name }}">{{ key.display }}</label><input style="width: 33%;" type="text" class="form-control" name="{{ key.name }}" id="{{ key.name }}" {% if key.name == "key_name" %} value="{{ my_name }}" {% endif %}>
+                                <label for="{{ key.name }}">{{ key.display }}</label><input style="width: 33%;" type="text" class="form-control" name="{{ key.name }}" id="{{ key.name }}" {% if key.name == "key_name" %} value="{{ my_key }}" {% endif %}>
                             </div>
                         {% endif %}
                     {% endif %}

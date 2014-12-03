@@ -41,46 +41,6 @@ class IndexView(views.APIView):
         context['stacks'] = stacks 
         return context
 
-class LaunchView(views.APIView):
-
-    template_name = 'project/applications/list.html'
-
-    def get_data(self, request, context, *args, **kwargs):
-
-        params = dict([
-            ("stack_name", "test_stack"),
-            ('integra_management', 'integra_management'),
-            ('integra_internal' , 'integra_internal'),
-            ('client_external' , 'client_external'),
-            ('client_external_subnet' , 'client_external_subnet'),
-            ('internet_external' , 'internet_external'),
-            ('internet_external_subnet' , 'internet_external_subnet'),
-            ('key_name' , 'dajohnst'),
-            ('oam01_ip' , '0.0.0.0'),
-            ('oam02_ip' , '0.0.0.0'),
-            ('sys_component' , 'Core,CC'),
-            ('security_group_name' , 'default')
-        ])
-
-        fields = {
-            'stack_name': 'test_stack',
-            'timeout_mins': '60',
-            'disable_rollback': 'true', 
-            'parameters': params,
-            'template_url' : 'http://10.20.130.40/FEScalingNode-non-lvs.yaml'
-        }
-
-        try:
-            data = api.heat.stack_create(request, **fields)
-            stack_id = data['stack']['id']
-            msg = ('XXX Stack Created %s') % stack_id
-            stack_url = '/project/stacks/stack/%s' % stack_id
-            #messages.success(request, "Stack creation started.")
-        except Exception as e:
-            exceptions.handle(request, e or _('Stack creation failed.'))
-
-        return context
-
 class ApplicationDetailedView(views.APIView):
 
     template_name = 'project/applications/application_detail.html'
@@ -168,7 +128,7 @@ class ApplicationStackLaunchView(views.APIView):
             'timeout_mins': '60',
             'disable_rollback': 'true', 
             'parameters': params,
-            'template_url' : app['template_url']
+            'template_url' : request.build_absolute_uri(app['template_url'])
         }
 
         try:
