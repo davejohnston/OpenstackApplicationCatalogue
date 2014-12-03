@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Application Catalogue" %}{% endblock %}
+{% load staticfiles %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Application Catalogue") %}
+{% endblock page_header %}
+
+{% block main %}
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="row">
+            {% for stack in stacks %}
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>
+                                {{ stack.name }} {{ stack.release }}
+                            </h3>
+                            <img alt="300x200" src="{{ stack.image_icon}}" style="padding: 10px; height: 96px; width: 96px; float: right;" />
+                            <p> {{ stack.description }} <a href="application_detail?id={{ stack.id }}">more info...</a>
+                            <br style="clear: both;" />
+                            <br style="clear: both;" />
+                            </p>
+                            <p>
+                                <div style="text-align: right;">
+                                    <img style="float: left; height: 32px; width: 32px;" src="{{ stack.os_icon }}" />
+                                    <a class="btn btn-primary" style="float: right;" href="application_launch?id={{ stack.id }}">Quick Launch</a>
+                                    <br style="clear: both;" />
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+            <ul class="pagination">
+            {% if stacks.has_previous %}
+                <li>
+                    <a href="?page={{ stacks.previous_page_number }}">Prev</a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <a href="?page=1">Prev</a>
+                </li>
+            {% endif %}
+
+            {% for page_no in stacks.paginator.page_range%}
+                {% ifequal page_no stacks.number %}
+                    <li class="active">
+                        <a href="?page={{ page_no }}">{{page_no}}</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="?page={{ page_no }}">{{page_no}}</a>
+                    </li>
+                {% endifequal %}
+            {% endfor %}
+
+            {% if stacks.has_next %}
+                <li>
+                    <a href="?page={{ stacks.next_page_number }}">Next</a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <a href="?page=1">Next</a>
+                </li>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

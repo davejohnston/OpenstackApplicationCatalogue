@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans application.name %}{% endblock %}
+{% load staticfiles %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=application.name %}
+{% endblock page_header %}
+
+{% block main %}
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <img alt="140x140" style="float: left; width: 128px; height: 128px;" src="{{ application.image_icon}}" />
+            <dl>
+                <dt>
+                    Author
+                </dt>
+                <dd>    
+                    {{ application.author }}
+                </dd>
+                <dt>
+                   Release 
+                </dt>
+                <dd>
+                    {{ application.release }}
+                </dd>
+                <dt>
+                    Date
+                </dt>
+                <dd>
+                    {{ application.release_date }}
+                </dd>
+                <dt>
+                    Description
+                </dt>
+                <dd>
+                    {{ application.description }}
+                </dd>
+            </dl>
+            <div class="tabbable" id="tabs-507551">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#panel-367525" data-toggle="tab">Specification</a>
+                    </li>
+                    <li>
+                        <a href="#panel-892824" data-toggle="tab">User Guide</a>
+                    </li>
+                    <li>
+                        <a href="#panel-892826" data-toggle="tab">License</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="panel-367525">
+                        <dl>
+                            <dt>
+                               VCPUs
+                            </dt>
+                            <dd>    
+                                {{ application.vcpus }}
+                            </dd>
+                            <dt>
+                                Root Disk (GB)
+                            </dt>
+                            <dd>
+                                {{ application.root_disk}}
+                            </dd>
+                            <dt>
+                                RAM (MB)        
+                            </dt>
+                            <dd>
+                                {{ application.ram}}
+                            </dd>
+                            <dt>
+                                Operating System
+                            </dt>
+                            <dd>
+                                {{ application.os}}
+                            </dd>
+                            <dt>
+                                Architecture
+                            </dt>
+                            <dd>
+                                {{ application.arch}}
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="tab-pane" id="panel-892824">
+                        <p>
+                            User Manual
+                        </p>
+                    </div>
+                    <div class="tab-pane" id="panel-892826">
+                        <p>
+                            License    
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <a type="button" style="float: right;" class="btn btn-primary" href=application_launch?id={{ application.id }}>Launch</a>
+            <br style="clear: both;" />
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

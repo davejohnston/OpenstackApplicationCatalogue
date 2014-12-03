@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans application.name %}{% endblock %}
+{% load staticfiles %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=application.name %}
+{% endblock page_header %}
+
+{% block main %}
+{{ submitted }}
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <form role="form" action="application_stacklaunch" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{application.id}}">
+                <div class="form-group">
+                    <label for="stack_name">Stack Name</label><input style="width: 33%;" type="text" class="form-control" name="stack_name" id="stack_name">
+                </div>
+                {% for key in application.map %}
+                    {% if not key.hidden %}
+                        {% if key.lookup == 'network' %} 
+                            <!-- Currenlty we only support lookup from network -->
+                            <div class="form-group">
+                                <label for="{{ key.name }}">{{ key.display }}:</label>
+                                <select style="width: 33%;" class="form-control" name="{{ key.name }}" id="{{ key.name }}">
+                                        {% for network in networks %}
+                                            <option value="{{ network.id }}" {% if key.default == network.name %} selected="selected" {% endif %}>{{ network.name }}</option>
+                                        {% endfor %}
+                                </select>
+                            </div>
+                        {% elif key.lookup == 'subnet' %} 
+                            <!-- Currenlty we only support lookup from network -->
+                            <div class="form-group">
+                                <label for="{{ key.name }}">{{ key.display }}:</label>
+                                <select style="width: 33%;" class="form-control" name="{{ key.name }}" id="{{ key.name }}">
+                                        {% for subnet in subnets %}
+                                            <option value="{{ subnet.id }}" {% if key.default == subnet.name %} selected="selected" {% endif %}>{{ subnet.name }}</option>
+                                        {% endfor %}
+                                </select>
+                            </div>
+                        {% else %}
+                            <div class="form-group">
+                                <label for="{{ key.name }}">{{ key.display }}</label><input style="width: 33%;" type="text" class="form-control" name="{{ key.name }}" id="{{ key.name }}" {% if key.name == "key_name" %} value="{{ my_name }}" {% endif %}>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                <button type="submit" class="btn btn-primary" style="float:right;">Launch</button>
+                <br style="clear: both;" />
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

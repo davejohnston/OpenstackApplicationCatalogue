@@ -1,0 +1,39 @@
+[
+    {
+        "id": "00001",
+        "author": "Dave Johnston",
+        "name": "Apache",
+        "release" : "2.0",
+        "release_date" : "01 Dec 2014",
+        "description" : "Simple Apache Server running on RedHat 6.5",
+        "template_url" : "/static/dashboard/resources/Apache.yaml",
+        "image_icon" : "/static/dashboard/img/integra-logo.png",
+        "os_icon" : "/static/dashboard/img/redhat-icon.png",
+        "vcpus" : 8,    
+        "root_disk" : 40,
+        "ram" : 12288,
+        "os" : "RedHat 6.5",
+        "arch" : "x86_64",
+        "map": [    
+            {
+                "name" : "key_name",
+                "display" : "Key Name",
+                "description" : "The SSH Key to inject into your Virtual Machine"
+            },
+            {
+                "name" : "image",
+                "display" : "Image Name",
+                "hidden" : true,
+                "default" : "RedHat6.5",
+                "description" : "The image to use when booting this instance"
+            },
+            {
+                "name" : "management_network",
+                "display" : "Management Network",
+                "default" : "integra_management",
+                "description" : "The Name of the Management Network to connect to",
+                "lookup" : "network"
+            }
+        ]
+    }
+]
